@@ -28,7 +28,7 @@ public class TestAdmin {
     }
 
 
-    // if the same class & year is created twice, adopt the updated information
+    // if the same class & year is created twice, should adopt the updated information
     @Test
     public void testValidCreateClass3() {
         this.admin.createClass("ECS122A", 2017, "Rob Gysel", 15);
@@ -108,19 +108,23 @@ public class TestAdmin {
         assertTrue(this.admin.getClassCapacity("ECS122A", 2017) >= 2);
     }
 
+    // if the new capacity is the same as original, it's okay, it's just silly
     @Test
     public void testValidChangeCapacity3() {
-        this.admin.createClass("ECS122A", 2017, "Rob Gysel", 100);
+        int originalCapacity = 100;
+        this.admin.createClass("ECS122A", 2017, "Rob Gysel", originalCapacity);
         this.admin.changeCapacity("ECS122A", 2017, 100);
-        assertTrue(this.admin.getClassCapacity("ECS122A", 2017) == 100);
+        assertTrue(this.admin.getClassCapacity("ECS122A", 2017) == originalCapacity);
     }
 
+    // Changing capacity for a class that doesn't exist
     @Test
     public void testInvalidChangeCapacity() {
         this.admin.changeCapacity("ECS122A", 2017, 200);
-        assertFalse(this.admin.classExists("ECS122A", 2017));
+        assertTrue(this.admin.classExists("ECS122A", 2017));
     }
 
+    // Changing capacity to a number lower than the enrolled students
     @Test
     public void testInvalidChangeCapacity2() {
         this.admin.createClass("ECS122A", 2017, "Rob Gysel", 5);
@@ -134,6 +138,4 @@ public class TestAdmin {
 
         assertTrue(this.admin.getClassCapacity("ECS122A", 2017) >= 3);
     }
-
-
 }

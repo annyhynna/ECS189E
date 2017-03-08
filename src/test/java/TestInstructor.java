@@ -91,18 +91,21 @@ public class TestInstructor {
         assertTrue(this.student.hasSubmitted("Anny Hsu", "HW2", "ECS122A", 2017));
     }
 
+    // Instructor assigns grade to a class that he/she is not teachings
     @Test
     public void testInvalidAssignGrade() {
         this.instructor.assignGrade("Sean Davis", "ECS122A", 2017, "HW2", "Anny Hsu", 100);
         assertTrue(this.admin.getClassInstructor("ECS122A", 2017).equals("Sean Davis"));
     }
 
+    // Instructor assigns grade to a homework that doesn't exist
     @Test
     public void testInvalidAssignGrade2() {
         this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW3", "Anny Hsu", 100);
         assertTrue(this.instructor.homeworkExists("ECS122A", 2017, "HW3"));
     }
 
+    // Instructor assigns grade to a homework that student did not submit
     @Test
     public void testInvalidAssignGrade3() {
         this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW3", "Anny Hsu", 100);

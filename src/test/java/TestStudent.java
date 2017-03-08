@@ -130,6 +130,7 @@ public class TestStudent {
         assertTrue(this.student.isRegisteredFor("Patty", "ECS122A", 2017));
     }
 
+    // Homework name is null
     @Test
     public void testInvalidSubmitHomework() {
         this.student.registerForClass("Patty", "ECS122A", 2017);
@@ -138,6 +139,7 @@ public class TestStudent {
         assertFalse(this.student.hasSubmitted("Patty",null, "ECS122A", 2017));
     }
 
+    // Homework name is empty
     @Test
     public void testInvalidSubmitHomework2() {
         this.student.registerForClass("Patty", "ECS122A", 2017);
