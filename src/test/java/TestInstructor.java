@@ -126,8 +126,8 @@ public class TestInstructor {
 
     @Test
     public void testInvalidGrade() {
-        this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW2", "Anny Hsu", 200);
-        assertFalse(this.instructor.getGrade("ECS122A", 2017, "HW2", "Anny Hsu") > 100);
+        this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW2", "Anny Hsu", 130);
+        assertTrue(this.instructor.getGrade("ECS122A", 2017, "HW2", "Anny Hsu") > 100);
     }
 
     @Test
