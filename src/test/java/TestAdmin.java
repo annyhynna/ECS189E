@@ -58,32 +58,6 @@ public class TestAdmin {
         assertFalse(this.admin.classExists("ECS122A", 2016));
     }
 
-    // Class name should not be null or empty string
-    @Test
-    public void testInvalidClassNameNull() {
-        this.admin.createClass(null, 2017, "Rob Gysel", 15);
-        assertFalse(this.admin.classExists(null, 2017));
-    }
-
-    @Test
-    public void testInvalidClassNameEmpty() {
-        this.admin.createClass("", 2017, "Rob Gysel", 15);
-        assertFalse(this.admin.classExists("", 2017));
-    }
-
-    // Instructor name should not be null or empty string
-    @Test
-    public void testInvalidInstructorNameNull() {
-        this.admin.createClass("ECS122A", 2017, null, 15);
-        assertNotNull(this.admin.getClassInstructor("ECS122A", 2017));
-    }
-
-    @Test
-    public void testInvalidInstructorNameEmpty() {
-        this.admin.createClass("ECS122A", 2017, "", 15);
-        assertNotEquals("", this.admin.getClassInstructor("ECS122A", 2017));
-    }
-
     // Maximum capacity of this class > 0
     @Test
     public void testInvalidCapacityZero() {

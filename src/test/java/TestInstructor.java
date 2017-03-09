@@ -49,19 +49,6 @@ public class TestInstructor {
         assertEquals("Sean Davis", this.admin.getClassInstructor("ECS122A", 2017));
     }
 
-    // Homework name should not be null or empty string
-    @Test
-    public void testInvalidHomeworkNameNull() {
-        this.instructor.addHomework("Rob Gysel", "ECS122A",2017, null, "Dynamic Programming");
-        assertFalse(this.instructor.homeworkExists("ECS122A", 2017, null));
-    }
-
-    @Test
-    public void testInvalidHomeworkNameEmpty() {
-        this.instructor.addHomework("Rob Gysel", "ECS122A",2017, "", "Dynamic Programming");
-        assertFalse(this.instructor.homeworkExists("ECS122A", 2017, ""));
-    }
-
      /*
     Test assignGrade function
      */
@@ -118,25 +105,6 @@ public class TestInstructor {
         this.instructor.addHomework("Rob Gysel", "ECS122A",2017, "HW3", "Divide and Conquer");
         this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW3", "Anny Hsu", 100);
         assertTrue(this.student.hasSubmitted("Anny Hsu", "HW3", "ECS122A", 2017));
-    }
-
-    // Student name should not be null or empty string
-    @Test
-    public void testInvalidStudentNameNull() {
-        this.student.registerForClass(null, "ECS122A", 2017);
-        this.instructor.addHomework("Rob Gysel", "ECS122A",2017, "HW3", "Divide and Conquer");
-        this.student.submitHomework(null, "HW3", "Correct answer.", "ECS122A", 2017);
-        this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW3", null, 100);
-        assertNull(this.instructor.getGrade("ECS122A", 2017, "HW3", null));
-    }
-
-    @Test
-    public void testInvalidStudentNameEmpty() {
-        this.student.registerForClass("", "ECS122A", 2017);
-        this.instructor.addHomework("Rob Gysel", "ECS122A",2017, "HW3", "Divide and Conquer");
-        this.student.submitHomework("", "HW3", "Correct answer.", "ECS122A", 2017);
-        this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW3", "", 100);
-        assertNull(this.instructor.getGrade("ECS122A", 2017, "HW3", ""));
     }
 
     @Test
