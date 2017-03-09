@@ -123,26 +123,36 @@ public class TestInstructor {
     // Student name should not be null or empty string
     @Test
     public void testInvalidStudentNameNull() {
-        this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW2", null, 100);
-        assertNull(this.instructor.getGrade("ECS122A", 2017, "HW2", null));
+        this.student.registerForClass(null, "ECS122A", 2017);
+        this.instructor.addHomework("Rob Gysel", "ECS122A",2017, "HW3", "Divide and Conquer");
+        this.student.submitHomework(null, "HW3", "Correct answer.", "ECS122A", 2017);
+        this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW3", null, 100);
+        assertNull(this.instructor.getGrade("ECS122A", 2017, "HW3", null));
     }
 
     @Test
     public void testInvalidStudentNameEmpty() {
-        this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW2", "", 100);
-        assertNull(this.instructor.getGrade("ECS122A", 2017, "HW2", ""));
+        this.student.registerForClass("", "ECS122A", 2017);
+        this.instructor.addHomework("Rob Gysel", "ECS122A",2017, "HW3", "Divide and Conquer");
+        this.student.submitHomework("", "HW3", "Correct answer.", "ECS122A", 2017);
+        this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW3", "", 100);
+        assertNull(this.instructor.getGrade("ECS122A", 2017, "HW3", ""));
     }
 
     @Test
     public void testValidGradeOverHundred() {
         this.student.registerForClass("Anny Hsu", "ECS122A", 2017);
         this.instructor.addHomework("Rob Gysel", "ECS122A",2017, "HW2", "Divide and Conquer");
+        this.student.submitHomework("Anny Hsu", "HW2", "Correct answer.", "ECS122A", 2017);
         this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW2", "Anny Hsu", 130);
         assertTrue(this.instructor.getGrade("ECS122A", 2017, "HW2", "Anny Hsu") > 100);
     }
 
     @Test
     public void testInvalidGradeNegative() {
+        this.student.registerForClass("Anny Hsu", "ECS122A", 2017);
+        this.instructor.addHomework("Rob Gysel", "ECS122A",2017, "HW2", "Divide and Conquer");
+        this.student.submitHomework("Anny Hsu", "HW2", "Correct answer.", "ECS122A", 2017);
         this.instructor.assignGrade("Rob Gysel", "ECS122A", 2017, "HW2", "Anny Hsu", -100);
         assertFalse(this.instructor.getGrade("ECS122A", 2017, "HW2", "Anny Hsu") < 0);
     }
