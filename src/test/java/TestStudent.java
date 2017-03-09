@@ -20,7 +20,6 @@ public class TestStudent {
         this.admin = new Admin();
         this.instructor = new Instructor();
         this.student = new Student();
-
         this.admin.createClass("ECS122A", 2017, "Rob Gysel", 5);
     }
 
@@ -39,51 +38,65 @@ public class TestStudent {
         assertTrue(this.admin.classExists("ECS122A", 2017));
     }
 
+
     @Test
-    public void testValidRegisterClass3 () {
+    public void testValidRegisterWithinCapacity () {
         this.student.registerForClass("Anny", "ECS122A", 2017);
         this.student.registerForClass("Patty", "ECS122A", 2017);
         this.student.registerForClass("Brandon", "ECS122A", 2017);
         assertTrue(this.admin.getClassCapacity("ECS122A", 2017) >= 3);
     }
 
+    // Register for a class that doesn't have enough capacity
     @Test
-    public void testInvalidRegisterClass() {
+    public void testInvalidRegisterOverCapacity () {
+        this.student.registerForClass("Anny", "ECS122A", 2017);
+        this.student.registerForClass("Patty", "ECS122A", 2017);
+        this.student.registerForClass("Brandon", "ECS122A", 2017);
+        this.student.registerForClass("Andy", "ECS122A", 2017);
+        this.student.registerForClass("Han", "ECS122A", 2017);
+        this.student.registerForClass("Jeff", "ECS122A", 2017);
+        assertTrue(this.admin.getClassCapacity("ECS122A", 2017) >= 6);
+    }
+
+    @Test
+    public void testInvalidRegisterClassOverCapacity2 () {
+        this.student.registerForClass("Anny", "ECS122A", 2017);
+        this.student.registerForClass("Patty", "ECS122A", 2017);
+        this.student.registerForClass("Brandon", "ECS122A", 2017);
+        this.student.registerForClass("Andy", "ECS122A", 2017);
+        this.student.registerForClass("Han", "ECS122A", 2017);
+        this.student.registerForClass("Jeff", "ECS122A", 2017);
+        assertFalse(this.student.isRegisteredFor("Jeff", "ECS122A", 2017));
+    }
+
+    // Student name should not be null or empty string
+    @Test
+    public void testInvalidStudentNameNull() {
         this.student.registerForClass(null, "ECS122A", 2017);
         assertFalse(this.student.isRegisteredFor(null, "ECS122A", 2017));
     }
 
     @Test
-    public void testInvalidRegisterClass2() {
+    public void testInvalidStudentNameEmpty() {
         this.student.registerForClass("", "ECS122A", 2017);
         assertFalse(this.student.isRegisteredFor("", "ECS122A", 2017));
     }
 
     // Register for a class that doesn't exist
     @Test
-    public void testInvalidRegisterClass3() {
+    public void testInvalidRegisterNonExistClass() {
         this.student.registerForClass("Anny", "ECS999", 2017);
         assertTrue(this.student.isRegisteredFor("Anny", "ECS999", 2017));
     }
 
     // Register for a class that doesn't exist
     @Test
-    public void testInvalidRegisterClass4() {
+    public void testInvalidRegisterNonExistClass2() {
         this.student.registerForClass("Anny", "ECS999", 2017);
         assertTrue(this.admin.classExists("ECS999", 2017));
     }
 
-    // Register for a class that doesn't have enough capacity
-    @Test
-    public void testInvalidRegisterClass5 () {
-        this.student.registerForClass("Anny", "ECS122A", 2017);
-        this.student.registerForClass("Patty", "ECS122A", 2017);
-        this.student.registerForClass("Brandon", "ECS122A", 2017);
-        this.student.registerForClass("Andy", "ECS122A", 2017);
-        this.student.registerForClass("Han", "ECS122A", 2017);
-        this.student.registerForClass("Sahana", "ECS122A", 2017);
-        assertTrue(this.admin.getClassCapacity("ECS122A", 2017) >= 6);
-    }
 
     /*
     Test dropClass function
@@ -93,6 +106,18 @@ public class TestStudent {
         this.student.registerForClass("Patty", "ECS122A", 2017);
         this.student.dropClass("Patty", "ECS122A", 2017);
         assertFalse(this.student.isRegisteredFor("Patty", "ECS122A", 2017));
+    }
+
+    @Test
+    public void testInvalidDropNonExistClass() {
+        this.student.dropClass("Patty", "ECS999", 2017);
+        assertTrue(this.admin.classExists("ECS999", 2017));
+    }
+
+    @Test
+    public void testInvalidDropPastClass() {
+        this.student.dropClass("Patty", "ECS122A", 2016);
+        assertTrue(this.admin.classExists("ECS122A", 2016));
     }
 
     /*
@@ -111,7 +136,7 @@ public class TestStudent {
         this.student.registerForClass("Patty", "ECS122A", 2017);
         this.instructor.addHomework("Rob Gysel", "ECS122A", 2017, "HW1", "Coin change");
         this.student.submitHomework("Patty", "HW1", "hello world", "ECS122A", 2017);
-        assertTrue(this.student.hasSubmitted("Patty", "HW1", "ECS122A", 2017));
+        assertTrue(this.instructor.homeworkExists("ECS122A", 2017, "HW1"));
     }
 
     @Test
@@ -119,38 +144,31 @@ public class TestStudent {
         this.student.registerForClass("Patty", "ECS122A", 2017);
         this.instructor.addHomework("Rob Gysel", "ECS122A", 2017, "HW1", "Coin change");
         this.student.submitHomework("Patty", "HW1", "hello world", "ECS122A", 2017);
-        assertTrue(this.instructor.homeworkExists("ECS122A", 2017, "HW1"));
-    }
-
-    @Test
-    public void testValidSubmitHomework4() {
-        this.student.registerForClass("Patty", "ECS122A", 2017);
-        this.instructor.addHomework("Rob Gysel", "ECS122A", 2017, "HW1", "Coin change");
-        this.student.submitHomework("Patty", "HW1", "hello world", "ECS122A", 2017);
         assertTrue(this.student.isRegisteredFor("Patty", "ECS122A", 2017));
     }
 
+
     // Homework name is null
     @Test
-    public void testInvalidSubmitHomework() {
+    public void testInvalidSubmitHomeworkNameNull() {
         this.student.registerForClass("Patty", "ECS122A", 2017);
-        this.instructor.addHomework("Rob Gysel", "ECS122A", 2017, "HW1", "Coin change");
+        this.instructor.addHomework("Rob Gysel", "ECS122A", 2017, null, "Coin change");
         this.student.submitHomework("Patty", null, "hello world", "ECS122A", 2017);
         assertFalse(this.student.hasSubmitted("Patty",null, "ECS122A", 2017));
     }
 
     // Homework name is empty
     @Test
-    public void testInvalidSubmitHomework2() {
+    public void testInvalidSubmitHomeworkNameEmpty() {
         this.student.registerForClass("Patty", "ECS122A", 2017);
-        this.instructor.addHomework("Rob Gysel", "ECS122A", 2017, "HW1", "Coin change");
+        this.instructor.addHomework("Rob Gysel", "ECS122A", 2017, "", "Coin change");
         this.student.submitHomework("Patty", "", "hello world", "ECS122A", 2017);
         assertFalse(this.student.hasSubmitted("Patty","", "ECS122A", 2017));
     }
 
     // Submit a homework with "answerString" being null
     @Test
-    public void testInvalidSubmitHomework3() {
+    public void testInvalidSubmitHomeworkWithAnwserNull() {
         this.student.registerForClass("Patty", "ECS122A", 2017);
         this.instructor.addHomework("Rob Gysel", "ECS122A", 2017, "HW1", "Coin change");
         this.student.submitHomework("Patty", "HW1", null, "ECS122A", 2017);
@@ -159,7 +177,7 @@ public class TestStudent {
 
     // Submit a homework that does not exist
     @Test
-    public void testInvalidSubmitHomework4() {
+    public void testInvalidSubmitNonExistHomework() {
         this.student.registerForClass("Patty", "ECS122A", 2017);
         this.student.submitHomework("Patty", "HW1", "hello world", "ECS122A", 2017);
         assertTrue(this.instructor.homeworkExists("ECS122A", 2017, "HW1"));
